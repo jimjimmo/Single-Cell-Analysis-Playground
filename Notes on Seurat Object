@@ -1,0 +1,4 @@
+Seurat Object Notes
+
+meta.data
+Contains different info like the orig.ident (cell identity), nCount_RNA for each cell
