@@ -16,7 +16,7 @@ library(patchwork)
 library(ggplot2)
 
 #Load the PBMC dataset
-pbmc.data <- Read10X(data.dir = "C:/Users/jimbo/Documents/R")
+pbmc.data <- Read10X(data.dir = "C:/Users/jimbo/Documents/R/Single-Cell-Analysis-Playground")
 #Initialize the Seurat object with the raw (non-normalized data)
 
 pbmc <- CreateSeuratObject(counts = pbmc.data, project = "pbmc3k", min.cells = 3, min.features = 200)
@@ -70,5 +70,24 @@ pbmc <- FindClusters(pbmc, resolution = 0.5)
 #Look at cluster IDs of the first 5 cells
 head(Idents(pbmc), 5)
 
-pbmc <- RunUMAP(pbmc, dims = 1:20)
+pbmc <- RunUMAP(pbmc, dims = 1:10)
 DimPlot(pbmc, reduction = "umap")
+
+cluster1.markers = FindMarkers(pbmc, ident.1 = 1, min.pct = 0.25) #See which gene is a marker for cluster 1
+head(cluster1.markers, n = 5) #See whichtop 5 genes that define this cluster
+
+VlnPlot(pbmc, features = c(row.names(cluster1.markers)[1], row.names(cluster1.markers)[2]))
+
+#Find all markers distinguishing cluster 5 from  clusters 0 and 3
+cluster5.markers <- FindMarkers(pbmc, ident.1 = 5, ident.2 = c(0,3), min.pct = 0.25)
+head(cluster5.markers, n = 5)
+
+VlnPlot(pbmc, features = c(row.names(cluster5.markers)[1], row.names(cluster5.markers)[2])) #Shows that 5 and 1 may be very similar, but 5 and 3 and distinct
+
+pbmc.markers <- FindAllMarkers(pbmc, only.pos = TRUE, min.pct = 0.25, logfc.threshold = 0.25)
+
+x <- pbmc.markers %>% group_by(cluster) %>% top_n(n = 1, wt = avg_log2FC)
+p7 <- FeaturePlot(pbmc, features = x$gene[1:4])
+p8 <- FeaturePlot(pbmc, features = x$gene[5:8])
+
+
