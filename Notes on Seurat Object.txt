@@ -2,3 +2,7 @@ Seurat Object Notes
 
 meta.data
 Contains different info like the orig.ident (cell identity), nCount_RNA for each cell, number of features each cell has, percent mitochondrial dna each cell has
+
+In this example, it was very interesting to see that the UMAP plots generated in this analysis could be different when selecting the number of dimensions to use. Selecting the top 10 dimensions or 20 dimensions lead to different UMAP plots.
+
+PCA separation vs UMAP separation: Although both showed good clusters, UMAP was far more distinct in the cell clusters. I wonder, could PCA generate more distinct clusters than UMAP?
