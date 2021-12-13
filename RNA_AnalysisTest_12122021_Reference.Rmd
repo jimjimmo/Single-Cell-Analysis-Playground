@@ -256,4 +256,14 @@ DimPlot(pbmc, reduction = "umap", label = TRUE, pt.size = 0.5)
 sessionInfo()
 ```
 
+#Will be playing around with more analysis I could do (disk plot, etc.)
+```{r}
+#DEG Analysis
+plot((pbmc.markers[,2]), -log10(pbmc.markers[,1]))
 
+```
+```{r}
+#Dot Plot. Show that certain genes are good markers for subclusters
+DotPlot(pbmc, features = c("MS4A1", "GNLY", "CD3E", "CD14", "FCER1A", "FCGR3A", "LYZ", "PPBP", "CD8A")) + RotatedAxis()
+
+```
